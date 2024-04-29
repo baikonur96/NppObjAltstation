@@ -6,7 +6,8 @@ import org.jsoup.select.Elements;
 
 public class Main {
     public static void main(String[] args) {
-       String nppFile = Service.parsefile("C:\\Users\\Baiko\\NppObjAltstation\\data\\10DMB10EJ101.svg");
+        String nameObj = "obj_Station_stat.svg";
+       String nppFile = Service.parsefile("C:\\Users\\Baiko\\NppObjAltstation\\data\\10DMB10EJ101.svg", nameObj);
        Document doc = Jsoup.parse(nppFile);
        Elements el = doc.select("image[xlink:href=\"obj_Station_stat.svg\"]");
        el.forEach(element -> {

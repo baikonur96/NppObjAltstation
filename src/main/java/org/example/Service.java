@@ -12,21 +12,76 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Service {
 
-    public static String parsefile(String path) {
-        StringBuilder builder = new StringBuilder();
+
+    public static String parsefile(String path, String obj) {
+        String regexStartModel = "\\W*<image.*xlink:href=\"" + obj + "\".*";
+        String regexEndModel = "\\W*</image>";
+        List<Model> listModel = new ArrayList<>();
+
+
+      //  String regex = "<image.*xlink:href=\"obj_Station_stat\\.svg\"";
+        Pattern patternStartModel = Pattern.compile(regexStartModel);
+        Pattern patternEndModel = Pattern.compile(regexEndModel);
+        StringBuilder build = new StringBuilder();
         try {
+
             List<String> lines = Files.readAllLines(Paths.get(path),Charset.forName("windows-1251"));
-            lines.forEach(line -> builder.append(line + "\n"));
+
+            for (int i = 0; i < lines.size(); i++){
+                Matcher matcherStartModel = patternStartModel.matcher(lines.get(i));
+                if (matcherStartModel.matches()){
+                    Model model = new Model();
+                    model.setName(obj);
+                    StringBuilder builder = new StringBuilder();
+                  //  flag = true;
+                    builder.append(lines.get(i) + "\n");
+                        for (int y = i + 1; y < lines.size(); y++){
+                            Matcher matcherEndModel = patternEndModel.matcher(lines.get(y));
+                            if (matcherEndModel.matches()){
+                                builder.append(lines.get(y) + "\n");
+                                model.setText(builder.toString());
+                                listModel.add(model);
+                                break;
+                            }
+                            builder.append(lines.get(y) + "\n");
+                        }
+                }
+
+
+            }
+//            lines.forEach(line -> {
+//                Matcher matcherEndModel = patternEndModel.matcher(line);
+//                Matcher matcherStartModel = patternStartModel.matcher(line);
+//                if (matcherEndModel.matches()){
+//                    builder.append(line + "\n");
+//                    flag = false;
+//                }
+//
+//                else if (flag == true){
+//                    builder.append(line + "\n");
+//
+//                }
+//                else if (matcherStartModel.matches()){
+//                    flag = true;
+//                    builder.append(line + "\n");
+//
+//                }
+//
+//                } );
         }catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println(builder.length());
-        return builder.toString();
+
+        System.out.println(path + " - " + listModel.size());
+        return build.toString();
     }
 
     public static void WriteFile(String name, String body) {
