@@ -1,16 +1,17 @@
 package org.example;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 import java.io.File;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
         String folderPath = "data\\NPP_models\\";
         String nameObj = "obj_Station_stat.svg";
-
+        StringBuilder nppLogs = new StringBuilder();
+        int start = 0;
+        Thread thread = new Thread(new StatProcess());
+        thread.setDaemon(true);
+        thread.start();
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
         if (files != null) {
@@ -20,10 +21,13 @@ public class Main {
                     if (!nppFile.isEmpty()) {
                         Service.WriteFile(file.getName(), nppFile);
                     }
-                    Service.WriteFile("file.log", Service.nppLogs.toString());
                 }
             }
         }
+        for (Map.Entry<String, Integer> entry : Service.nppStat.entrySet()){
+            nppLogs.append(++start + " - " + entry.getKey() + " - " + entry.getValue() + "\n");
+        }
+        Service.WriteFile("file.log", nppLogs.toString());
 //
 //        String nameObj = "obj_Station_stat.svg";
 //       String nppFile = Service.parsefile("data\\10DMB20EJ101.svg", nameObj);
