@@ -4,11 +4,32 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.File;
+
 public class Main {
     public static void main(String[] args) {
+        String folderPath = "data\\NPP_models\\";
         String nameObj = "obj_Station_stat.svg";
-       String nppFile = Service.parsefile("C:\\Users\\Baiko\\NppObjAltstation\\data\\10DMB10EJ101.svg", nameObj);
-       Document doc = Jsoup.parse(nppFile);
+
+        File folder = new File(folderPath);
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile() && file.getName().endsWith(".svg")) {
+                    String nppFile = Service.parsefile(file.toString(), nameObj);
+                    if (!nppFile.isEmpty()) {
+                        Service.WriteFile(file.getName(), nppFile);
+                    }
+                    Service.WriteFile("file.log", Service.nppLogs.toString());
+                }
+            }
+        }
+//
+//        String nameObj = "obj_Station_stat.svg";
+//       String nppFile = Service.parsefile("data\\10DMB20EJ101.svg", nameObj);
+
+
+/*       Document doc = Jsoup.parse(nppFile);
        Elements el = doc.select("image[xlink:href=\"obj_Station_stat.svg\"]");
        el.forEach(element -> {
            System.out.println("----------------");
@@ -35,6 +56,6 @@ public class Main {
           //System.out.println(element);
            System.out.println("----------------");
        });
-       Service.WriteSVG("10DMB10EJ101NW", doc);
+       Service.WriteSVG("10DMB10EJ101NW", doc);*/
     }
 }
