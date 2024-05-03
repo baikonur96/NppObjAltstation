@@ -9,13 +9,18 @@ public class Main {
         String nameObj = "obj_Station_stat.svg";
         StringBuilder nppLogs = new StringBuilder();
         int start = 0;
-        Thread thread = new Thread(new StatProcess());
-        thread.setDaemon(true);
-        thread.start();
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
+        int totalFiles = files.length;
+        int i = 0;
+        StatProcess statProcess = new StatProcess(i, totalFiles);
+        Thread thread = new Thread(statProcess);
+        thread.setDaemon(true);
+        thread.start();
         if (files != null) {
             for (File file : files) {
+                i++;
+                statProcess.setI(i);
                 if (file.isFile() && file.getName().endsWith(".svg")) {
                     String nppFile = Service.parsefile(file.toString(), nameObj);
                     if (!nppFile.isEmpty()) {
@@ -28,6 +33,7 @@ public class Main {
             nppLogs.append(++start + " - " + entry.getKey() + " - " + entry.getValue() + "\n");
         }
         Service.WriteFile("file.log", nppLogs.toString());
+
 //
 //        String nameObj = "obj_Station_stat.svg";
 //       String nppFile = Service.parsefile("data\\10DMB20EJ101.svg", nameObj);

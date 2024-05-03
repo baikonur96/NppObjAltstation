@@ -110,7 +110,7 @@ public class Service {
                 if (matcherUsersNpp.find()){
                     stationName.setUsers(matcherUsersNpp.group(1));
                     stationName.setNameNpp(matcherUsersNpp.group(2));
-                 //   System.out.println(matcherUsersNpp.group(1) + " - " + matcherUsersNpp.group(2));
+                //   System.out.println(matcherUsersNpp.group(1) + " - " + matcherUsersNpp.group(2));
                 }
             }
 
@@ -126,13 +126,13 @@ public class Service {
             model.getLineModel().add(model.getLineModel().size() - 2, textAdd);
             model.writeToText();
          //   System.out.println(model.getText().length() + " - LEGHTOUT");
-        //    System.out.println(model.getLineModel().size());
+         //    System.out.println(model.getLineModel().size());
             return model.getText();
         }
          else if (model.getOnClick().equals(model.getStationName().getNameNpp())){
              if (model.getStationName().getUsers().equals("0000")){
-              //   System.out.println(model.getLineModel().size());
-               //  System.out.println(model.getText().length() + " - LEGHTOUT");
+         //   System.out.println(model.getLineModel().size());
+         //  System.out.println(model.getText().length() + " - LEGHTOUT");
                  return model.getText();
              }else {
                  model.getStationName().setUsers("0000");
@@ -157,8 +157,8 @@ public class Service {
             model.getLineModel().remove(removeId);
             model.getLineModel().add(removeId, textAdd);
             model.writeToText();
-          //  System.out.println(model.getLineModel().size());
-        //    System.out.println(model.getText().length() + " - LEGHTOUT");
+    //  System.out.println(model.getLineModel().size());
+//    System.out.println(model.getText().length() + " - LEGHTOUT");
             return model.getText();
 
         }
