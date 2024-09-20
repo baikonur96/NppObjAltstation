@@ -122,7 +122,23 @@ public class Service {
             return model.getText();
         }
          else if (model.getStationName().getText().isEmpty()){
-             String textAdd = "    <rt:dyn type=\"Station_Name\" mode=\"constant\" value=\"&quot;0000#" + model.getOnClick() + "&quot;\"/>";
+            String user = "0000";
+             if(Main.alt.containsKey(model.getOnClick())){
+                 int startUser = 0;
+                 List<String> checksKks = Main.alt.get(model.getOnClick());
+                 Set<Integer> checksDouble = new HashSet<>();
+                 for (String kks : checksKks){
+                     if (Main.rul.containsKey(kks)) {
+                         startUser = Main.rul.get(kks);
+                         checksDouble.add(startUser);
+                     }
+                     }
+                 if(checksDouble.size() == 1){
+                     String hexUser = Integer.toHexString(startUser);
+                     user = new String(hexUser.toUpperCase());
+                 }
+                 }
+             String textAdd = "    <rt:dyn type=\"Station_Name\" mode=\"constant\" value=\"&quot;" + user + "#" + model.getOnClick() + "&quot;\"/>";
             model.getLineModel().add(model.getLineModel().size() - 2, textAdd);
             model.writeToText();
          //   System.out.println(model.getText().length() + " - LEGHTOUT");
@@ -130,12 +146,31 @@ public class Service {
             return model.getText();
         }
          else if (model.getOnClick().equals(model.getStationName().getNameNpp())){
-             if (model.getStationName().getUsers().equals("0000")){
+
+//             if (model.getStationName().getUsers().equals("0000")){
          //   System.out.println(model.getLineModel().size());
          //  System.out.println(model.getText().length() + " - LEGHTOUT");
-                 return model.getText();
-             }else {
-                 model.getStationName().setUsers("0000");
+//                 return model.getText();
+//             }else {
+
+            String user = "0000";
+            if(Main.alt.containsKey(model.getOnClick())){
+                int startUser = 0;
+                List<String> checksKks = Main.alt.get(model.getOnClick());
+                Set<Integer> checksDouble = new HashSet<>();
+                for (String kks : checksKks){
+                    if (Main.rul.containsKey(kks)) {
+                        startUser = Main.rul.get(kks);
+                        checksDouble.add(startUser);
+                    }
+                }
+                if(checksDouble.size() == 1){
+                    String hexUser = Integer.toHexString(startUser);
+                    int len =
+                    user = new String(hexUser.toUpperCase());
+                }
+            }
+                 model.getStationName().setUsers(user);
                  model.getStationName().setNameNpp(model.getOnClick());
                  String textAdd = "    <rt:dyn type=\"Station_Name\" mode=\"constant\" value=\"&quot;" + model.getStationName().getUsers() + "#" + model.getStationName().getNameNpp() + "&quot;\"/>";
                  int removeId = model.getStationName().getId();
@@ -146,11 +181,27 @@ public class Service {
                 // System.out.println(model.getLineModel().size());
                  return model.getText();
 
-             }
-
         }
          else {
-             model.getStationName().setUsers("0000");
+
+            String user = "0000";
+            if(Main.alt.containsKey(model.getOnClick())){
+                int startUser = 0;
+                List<String> checksKks = Main.alt.get(model.getOnClick());
+                Set<Integer> checksDouble = new HashSet<>();
+                for (String kks : checksKks){
+                    if (Main.rul.containsKey(kks)) {
+                        startUser = Main.rul.get(kks);
+                        checksDouble.add(startUser);
+                    }
+                }
+                if(checksDouble.size() == 1){
+                    String hexUser = Integer.toHexString(startUser);
+                    user = new String(hexUser.toUpperCase());
+                }
+            }
+
+             model.getStationName().setUsers(user);
              model.getStationName().setNameNpp(model.getOnClick());
             String textAdd = "    <rt:dyn type=\"Station_Name\" mode=\"constant\" value=\"&quot;" + model.getStationName().getUsers() + "#" + model.getStationName().getNameNpp() + "&quot;\"/>";
             int removeId = model.getStationName().getId();

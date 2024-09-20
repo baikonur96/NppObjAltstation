@@ -1,6 +1,6 @@
 package org.example;
 
-public class StatProcess implements Runnable{
+public class StatProcess implements Runnable {
 
     int i;
     int total;
